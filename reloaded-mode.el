@@ -14,60 +14,74 @@
 (defvar reloaded-namespace "user")
 
 (defun reloaded--eval (form)
+  "Evaluate the FORM in the current CIDER session."
   (cider-ensure-connected)
   (reloaded--ensure-implements-reloaded-pattern)
   (cider-tooling-eval form (cider-interactive-eval-handler) reloaded-namespace))
 
 (defun reloaded--eval-value (form)
+  "Evaluate the FORM in the current CIDER session and return the value."
   (nrepl-dict-get
    (cider-nrepl-sync-request:eval form reloaded-namespace)
    "value"))
 
 (defun reloaded-init ()
+  "Construct the current development system."
   (interactive)
   (reloaded--eval "(init)"))
 
 (defun reloaded-start ()
+  "Start the current development system."
   (interactive)
   (reloaded--eval "(start)"))
 
 (defun reloaded-stop ()
+  "Stop the current development system."
   (interactive)
   (reloaded--eval "(stop)"))
 
 (defun reloaded-go ()
+  "Construct the current development system and start it."
   (interactive)
   (reloaded--eval "(go)"))
 
 (defun reloaded-clear ()
+  "Stop the current development system and dereference it."
   (interactive)
   (reloaded--eval "(clear)"))
 
 (defun reloaded-suspend ()
+  "Suspend the current development system."
   (interactive)
   (reloaded--eval "(suspend)"))
 
 (defun reloaded-resume ()
+  "Resume the currently suspended development system."
   (interactive)
   (reloaded--eval "(resume)"))
 
 (defun reloaded-reset ()
+  "Reset modified files in the current development system."
   (interactive)
   (reloaded--eval "(reset)"))
 
 (defun reloaded-reset-all ()
+  "Reset all files in the current development system."
   (interactive)
   (reloaded--eval "(reset-all)"))
 
 ;;;###autoload
 (defun reloaded--implements-reloaded-pattern ()
+  "Determine whether the current development system implements the reloaded pattern."
   (not (equal "nil" (reloaded--eval-value "(and (resolve 'component/start) (resolve 'component/stop))"))))
 
 (defun reloaded--ensure-implements-reloaded-pattern ()
+  "Throw an error if the current development system doesn't implement the reloaded pattern."
   (unless (reloaded--implements-reloaded-pattern)
     (error "This project doesn't implement the Reloaded pattern")))
 
 (defun reloaded--reset-on-save ()
+  "Reset the current development system if CIDER is connected."
   (if (cider-connected-p) (reloaded-reset)))
 
 (defvar reloaded-mode-map
