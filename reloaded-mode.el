@@ -11,7 +11,16 @@
 ;;
 ;;; Code:
 
-(defvar reloaded-namespace "user")
+(defgroup reloaded nil
+  "Minor mode for working with the Reloaded Clojure workflow and CIDER."
+  :prefix "reloaded-"
+  :group 'programming
+  :link '(url-link "https://github.com/leppert/reloaded-mode"))
+
+(defcustom reloaded-namespace "user"
+  "The namespace in which reloaded functions should be evaluated."
+  :type '(string)
+  :group 'reloaded)
 
 (defun reloaded--eval (form)
   "Evaluate the FORM in the current CIDER session."
@@ -103,8 +112,7 @@
 (define-minor-mode reloaded-mode
   "Minor mode for Clojure projects using the Reloaded workflow with CIDER."
   :lighter "reloaded"
-  :keymap  reloaded-mode-map
-  :group   cider)
+  :keymap  reloaded-mode-map)
 
 (provide 'reloaded-mode)
 
