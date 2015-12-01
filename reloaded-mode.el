@@ -1,4 +1,15 @@
 ;;; reloaded-mode.el --- Support for the Reloaded Clojure workflow with CIDER
+;;
+;; Author: Greg Leppert
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Commentary:
+;;
+;; Handy hooks and functions for interacting with reloaded.repl
+;; https://github.com/weavejester/reloaded.repl
+;;
+;;; Code:
 
 (defvar reloaded-namespace "user")
 
@@ -48,6 +59,7 @@
   (interactive)
   (reloaded--eval "(reset-all)"))
 
+;;;###autoload
 (defun reloaded--implements-reloaded-pattern ()
   (not (equal "nil" (reloaded--eval-value "(and (resolve 'component/start) (resolve 'component/stop))"))))
 
@@ -81,3 +93,5 @@
   :group   cider)
 
 (provide 'reloaded-mode)
+
+;;; reloaded-mode.el ends here
